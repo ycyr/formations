@@ -19,6 +19,6 @@ while date; do sleep 5; done
 
 ## *Références*
 
-[Aide Mémoire Docker cli](https://github.com/ycyr/formations/tree/main/docker/aide-memoire#:~:text=docker%2Dcli%2Dcheatsheet.md)
+[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)
 
 [Aide Mémoire Dockerfile](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/dockerfile-cheatsheet.md)
