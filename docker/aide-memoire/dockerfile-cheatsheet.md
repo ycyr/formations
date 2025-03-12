@@ -45,7 +45,9 @@ FROM debian:latest
 Ajoute des métadonnées à l'image.
 
 ```dockerfile
-LABEL version="1.0"       description="Une image de test"       maintainer="ton.email@example.com"
+LABEL version="1.0"
+LABEL description="Une image de test"
+LABEL maintainer="ton.email@example.com"
 ```
 
 ---
@@ -155,15 +157,6 @@ Ajoute un test pour vérifier si le conteneur fonctionne correctement.
 
 ```dockerfile
 HEALTHCHECK --interval=30s CMD curl -f http://localhost || exit 1
-```
-
----
-
-### `ONBUILD`
-Définit des instructions à exécuter dans une image dérivée.
-
-```dockerfile
-ONBUILD COPY . /app
 ```
 
 ---
