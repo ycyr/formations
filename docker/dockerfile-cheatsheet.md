@@ -161,15 +161,6 @@ HEALTHCHECK --interval=30s CMD curl -f http://localhost || exit 1
 
 ---
 
-### `ONBUILD`
-Définit des instructions à exécuter dans une image dérivée.
-
-```dockerfile
-ONBUILD COPY . /app
-```
-
----
-
 ## 🔥 Exemple Complet
 
 ```dockerfile
