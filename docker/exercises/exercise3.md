@@ -30,3 +30,7 @@
    ```
 
 📌 **Résultat attendu** : Vous aurez manipulé un conteneur de A à Z ! 
+
+## *Références*
+
+[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)

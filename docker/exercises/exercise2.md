@@ -52,3 +52,6 @@ docker rm  webserver
 docker stop webserver
 docker rm  webserver
 ```
+## *Références*
+
+[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)
