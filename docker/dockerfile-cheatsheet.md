@@ -45,7 +45,9 @@ FROM debian:latest
 Ajoute des métadonnées à l'image.
 
 ```dockerfile
-LABEL version="1.0"       description="Une image de test"       maintainer="ton.email@example.com"
+LABEL version="1.0"
+LABEL description="Une image de test"
+LABEL maintainer="ton.email@example.com"
 ```
 
 ---
