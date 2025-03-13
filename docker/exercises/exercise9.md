@@ -50,3 +50,11 @@ Essayer d'obtenir plus de privilège
 docker run -it --security-opt no-new-privileges nosecure-image
 sudo su -
 ```
+
+📌 **Attendu :**Cela ne fonctionne pas**
+
+[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)
+
+[Aide Mémoire Dockerfile](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/dockerfile-cheatsheet.md)
+
+[Aide Mémoire Linux Capabilities](https://docs.docker.com/engine/containers/run/#runtime-privilege-and-linux-capabilities)
