@@ -1,4 +1,4 @@
-**🔥 Exercice avancé 10 : Sécuriser et optimiser un conteneur Nginx**
+**🔥 Exercice avancé 9 : Sécuriser et optimiser un conteneur Nginx**
 📌 **Objectif** :
 - Lancer un serveur **Nginx sécurisé**.
 - **Limiter les droits et ses ressources**.
