@@ -28,7 +28,7 @@ docker history ID_IMAGE
 
 
 
-### **5️⃣ Créer un autre image à partir de apline:latest** 
+### **5️⃣ Créer un autre image à partir de alpine:latest** 
 
 * Astuce: Dans Alpine pour installer un package *
 
