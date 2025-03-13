@@ -12,10 +12,31 @@ while date; do sleep 5; done
 ### **2️⃣ Tester le fonctionnement de votre image, et que voyez-vous**
 
 
-### **3️⃣ Créer un autre image à partir de apline:latest**
+### **3️⃣ Ajouter le package nano dans votre image et un tag *v2*
+
+* Astuce: Dans ubuntu pour installer un package *
+```
+apt update
+apt install -y NOM_PACKAGE
+````
+
+### **4️⃣ Afficher les couches de votre
+
+```
+docker history ID_IMAGE
+````
 
 
-### **4️⃣ Comparer la taille de vos deux images**
+
+### **5️⃣ Créer un autre image à partir de apline:latest** 
+
+* Astuce: Dans Alpine pour installer un package *
+
+```
+apk add --no-cache  NOM_PACKAGE
+```
+
+### **6️⃣ Comparer la taille de vos trois images**
 
 ## *Références*
 
