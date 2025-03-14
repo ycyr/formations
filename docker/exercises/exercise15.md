@@ -10,7 +10,7 @@ Vous allez :
 ✅ **Vérifier l’interconnexion entre les conteneurs**.  
 
 ---
-## ** Installation de docker-compose 
+## ** Installation de docker-compose**
 
 Si la commande docker-compose n'est pas installé veuillez ces commandes
 
