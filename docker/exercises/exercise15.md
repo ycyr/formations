@@ -62,10 +62,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 2. **Vérifier que les conteneurs sont bien créés** :
    ```sh
    docker ps
+   docker-compose ps
    ```
 3. **Accéder au serveur web depuis votre navigateur** en visitant :  
    ```sh
-   http://localhost:8080
+   curl http://localhost:8080
    ```
    **Question :** Pourquoi la page par défaut de Nginx s’affiche ?
 
