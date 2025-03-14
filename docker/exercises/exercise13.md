@@ -14,7 +14,7 @@ docker run -ti --name secure-nginx \
 ```
 📌 **Attendu :** Le conteneur ne fonctionne pas, tu l'as enlevé tous ses privilèges avec --cap-drop=ALL
 
-2️⃣ **Ajouter les options suivantes: --cap-add=CHOWN  --cap-add=SETGID --cap-add=SETUID ** :
+2️⃣ **Ajouter les options suivantes: --cap-add=CHOWN  --cap-add=SETGID --cap-add=SETUID** :
 
 👉 **Attendu :** Le contenur secure-nginx est fonctionnel
 
