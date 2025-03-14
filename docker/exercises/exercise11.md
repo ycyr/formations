@@ -113,7 +113,7 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    ```
 3. **Accédez au serveur web depuis votre navigateur** en allant sur :
    ```sh
-   http://localhost:8080
+   curl http://localhost:8080
    ```
    **Question :** Pourquoi cette URL fonctionne-t-elle ?
 
