@@ -16,6 +16,8 @@ Si la commande docker-compose n'est pas installé veuillez ces commandes
 
 ```sh
 sudo curl -SL https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+```
+```sh
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
