@@ -133,7 +133,7 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    ```sh
    docker exec -it my_webserver ping my_database
    ```
-**Question :** Pourquoi ce ne fonctionne pas ?
+   **Question :** Pourquoi ce ne fonctionne pas ?
 ---
 
 ## **✅ Conclusion**
