@@ -95,7 +95,11 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    echo "Test log entry" > ~/docker_logs/test.log
    docker exec -it my_logger ls /var/log
    ```
-
+5. **Vérifier que dans le dossier ~/docker_logs que le fichier test.log contienne le log crée à la section 4** :
+   ```sh
+   ls -l ~/docker_logs/test.log
+   cat ~/docker_logs/test.log
+   ```
 ---
 
 ## **🎯 Partie 5 : Lancer plusieurs conteneurs avec exposition de ports**
