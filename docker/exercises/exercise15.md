@@ -10,6 +10,16 @@ Vous allez :
 ✅ **Vérifier l’interconnexion entre les conteneurs**.  
 
 ---
+## ** Installation de docker-compose 
+
+Si la commande docker-compose n'est pas installé veuillez ces commandes
+
+```sh
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+---
 
 ## **🎯 Partie 1 : Préparation du projet**
 1. **Créez un dossier `docker-compose-test/` et placez-vous dedans** :
