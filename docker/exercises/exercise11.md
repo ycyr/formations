@@ -128,11 +128,12 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    ```sh
    docker logs my_webserver
    ```
+   **Question Expert :** Pourquoi on ne voit pas les logs ?
 3. **Vérifiez la connectivité entre les conteneurs avec `ping`** :
    ```sh
    docker exec -it my_webserver ping my_database
    ```
-
+**Question :** Pourquoi ce ne fonctionne pas ?
 ---
 
 ## **✅ Conclusion**
