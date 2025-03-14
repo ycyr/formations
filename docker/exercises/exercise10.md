@@ -1,64 +1,98 @@
-# **🔹 Exercise 10 Conteneur dangereux : Accès root de l'hôte depuis un conteneur 🚨⚠️**
-En **production**, mal configurer un conteneur **peut exposer l’hôte** à des attaques et permettre une **escalade de privilèges**.  
+# **📝 Exercice : Différencier `CMD` et `ENTRYPOINT` dans un `Dockerfile` 🚀**
 
-📌 **Problème** : Certains paramètres de lancement permettent à un conteneur de **prendre le contrôle de l’hôte** !  
-
----
-
-## **1️⃣ Pourquoi c’est dangereux ?**
-- **Docker tourne en root** → Un conteneur peut potentiellement exécuter des commandes avec les **droits root** de l’hôte.
-- **Accès au socket Docker (`/var/run/docker.sock`)** → Permet au conteneur de **gérer Docker lui-même**, créer d'autres conteneurs, supprimer des fichiers, etc.
-- **Montage du système de fichiers de l’hôte** → Le conteneur peut **modifier des fichiers critiques** (`/etc/passwd`, `/root/.ssh`, `/etc/shadow`).
-- **Ajout de privilèges avec `--privileged`** → Donne **un accès complet au noyau** du système.
+## **📌 Objectif**
+Cet exercice a pour but d’aider à comprendre la différence entre **CMD** et **ENTRYPOINT** dans un `Dockerfile`.  
+Vous allez :  
+✅ **Créer deux images Docker** : une utilisant `CMD` et l'autre `ENTRYPOINT`.  
+✅ **Lancer des conteneurs et observer le comportement**.  
+✅ **Modifier les commandes au lancement et comparer les résultats**.  
 
 ---
 
-## **2️⃣ Conteneur dangereux qui peut obtenir un accès root à l'hôte**
-🚨 **Ne testez cela que sur une machine de test** 🚨
+## **🎯 Partie 1 : Création d’une image avec `CMD`**
+1. **Créez un dossier `cmd_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
 
-### **📌 Exemple : Accès root à l’hôte via `/var/run/docker.sock`**
-1️⃣ **Lancer un conteneur en **mode privilégié** et en exposant le socket Docker** :
-```sh
-docker run -it --rm \
-  --privileged \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  alpine sh
-```
-2️⃣ **Dans le conteneur, créer un nouveau conteneur root privilégié** :
-```sh
-docker run -it --rm --privileged --net=host --pid=host -v /:/mnt alpine chroot /mnt sh
-```
-📌 **Résultat attendu** :  
-- Vous avez un accès **root complet à l’hôte** depuis le conteneur.
-- Vous pouvez **modifier des fichiers système**.
+   CMD ["echo", "Bonjour, ceci est une exécution par défaut avec CMD !"]
+   ```
+2. **Construisez l’image Docker** :
+   ```sh
+   docker build -t cmd-example ./cmd_test
+   ```
+3. **Lancez un conteneur et observez le comportement** :
+   ```sh
+   docker run cmd-example
+   ```
+   **Question :** Quel est le message affiché dans le terminal ?
 
-3️⃣ **Test : Ajouter un nouvel utilisateur root sur l’hôte** :
-```sh
-echo "hacker:x:0:0::/root:/bin/bash" >> /etc/passwd
-```
-4️⃣ **Ouvrir une session sur l’hôte avec cet utilisateur** :
-```sh
-su hacker
-```
-📌 **Le conteneur a complètement pris le contrôle de l’hôte !** 😱
+4. **Essayez d’écraser la commande au lancement du conteneur** :
+   ```sh
+   docker run cmd-example ls -l
+   ```
+   **Question :** Que se passe-t-il et pourquoi ?
 
 ---
 
-## **3️⃣ Expliquer comment cela fonctionne**
-### **🔍 Exploitation de `/var/run/docker.sock`**
-Docker expose une **API UNIX (`/var/run/docker.sock`)** qui permet de gérer les conteneurs.  
-📌 **Problème** :  
-Si un conteneur a accès à ce socket, il peut :
-- Lancer **d'autres conteneurs avec des privilèges élevés**.
-- **Supprimer des conteneurs** sur l’hôte.
-- **Monter tout le système de fichiers de l’hôte**.
+## **🎯 Partie 2 : Création d’une image avec `ENTRYPOINT`**
+1. **Créez un dossier `entrypoint_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
 
-### **🔍 Exploitation du mode `--privileged`**
-L’option `--privileged` donne au conteneur **tous les privilèges root** :
-- **Accès aux périphériques de l’hôte (`/dev`, `/sys`)**.
-- **Modification des paramètres du noyau**.
-- **Ajout d’interfaces réseau**.
-- **Chargement de modules noyau**.
+   ENTRYPOINT ["echo", "Bonjour, ceci est une exécution forcée avec ENTRYPOINT !"]
+   ```
+2. **Construisez l’image Docker** :
+   ```sh
+   docker build -t entrypoint-example ./entrypoint_test
+   ```
+3. **Lancez un conteneur et observez le comportement** :
+   ```sh
+   docker run entrypoint-example
+   ```
+   **Question :** Quel est le message affiché dans le terminal ?
 
-📌 **Conséquence** :
-👉 Un attaquant peut **modifier l’OS de l’hôte directement depuis un conteneur** !
+4. **Essayez d’écraser la commande au lancement du conteneur** :
+   ```sh
+   docker run entrypoint-example ls -l
+   ```
+   **Question :** Pourquoi la commande `ls -l` n’a-t-elle pas été exécutée ?
+
+---
+
+## **🎯 Partie 3 : Utiliser `ENTRYPOINT` avec `CMD` pour plus de flexibilité**
+1. **Créez un dossier `entrypoint_cmd_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
+
+   ENTRYPOINT ["echo"]
+   CMD ["Ceci est un message par défaut avec CMD"]
+   ```
+2. **Construisez l’image Docker** :
+   ```sh
+   docker build -t entrypoint-cmd-example ./entrypoint_cmd_test
+   ```
+3. **Lancez un conteneur et observez le comportement** :
+   ```sh
+   docker run entrypoint-cmd-example
+   ```
+   **Question :** Pourquoi voit-on `Ceci est un message par défaut avec CMD` ?
+
+4. **Écrasez uniquement `CMD` avec une autre commande** :
+   ```sh
+   docker run entrypoint-cmd-example "Un autre message"
+   ```
+   **Question :** Que se passe-t-il et pourquoi ?
+
+5. **Essayez d’écraser `ENTRYPOINT` au lancement** :
+   ```sh
+   docker run --entrypoint "/bin/bash" entrypoint-cmd-example -c "ls -l"
+   ```
+   **Question :** Quelle est la différence avec l’écrasement de `CMD` ?
+
+---
+
+## **✅ Conclusion**
+Dans cet exercice, vous avez appris que :  
+✔️ **`CMD` est une commande par défaut qui peut être remplacée au runtime**.  
+✔️ **`ENTRYPOINT` définit une commande obligatoire qui ne peut pas être remplacée facilement**.  
+✔️ **`CMD` peut être utilisé en complément de `ENTRYPOINT` pour plus de flexibilité**. 
