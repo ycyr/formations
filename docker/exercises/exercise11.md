@@ -95,7 +95,11 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    echo "Test log entry" > ~/docker_logs/test.log
    docker exec -it my_logger ls /var/log
    ```
-
+5. **Vérifier que dans le dossier ~/docker_logs que le fichier test.log contienne le log crée à la section 4** :
+   ```sh
+   ls -l ~/docker_logs/test.log
+   cat ~/docker_logs/test.log
+   ```
 ---
 
 ## **🎯 Partie 5 : Lancer plusieurs conteneurs avec exposition de ports**
@@ -109,7 +113,7 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    ```
 3. **Accédez au serveur web depuis votre navigateur** en allant sur :
    ```sh
-   http://localhost:8080
+   curl http://localhost:8080
    ```
    **Question :** Pourquoi cette URL fonctionne-t-elle ?
 
@@ -124,11 +128,12 @@ Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à
    ```sh
    docker logs my_webserver
    ```
+   **Question Expert :** Pourquoi on ne voit pas les logs ?
 3. **Vérifiez la connectivité entre les conteneurs avec `ping`** :
    ```sh
    docker exec -it my_webserver ping my_database
    ```
-
+**Question :** Pourquoi ce ne fonctionne pas ?
 ---
 
 ## **✅ Conclusion**
