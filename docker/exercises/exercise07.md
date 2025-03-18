@@ -65,7 +65,7 @@
    ```sh
    curl http://localhost:<PORT_ASSIGNÉ>
    ```
-   **Question :** Pourquoi Docker attribue-t-il un port différent chaque fois ?
+   **Question :** Pourquoi cette Docker attribue-t-il un port différent chaque fois ?
 
 ---
 
@@ -86,7 +86,7 @@
    ```sh
    curl mon-serveur
    ```
-   **Question :** Pourquoi le conteneur `alpine` peut-il accéder à `webserver` avec `mon-serveur` ?
+   **Question :** Pourquoi cela ne fonctionne pas qu'est-ce qu'il faut faire pour le conteneur `alpine` peut-il accéder à `webserver` avec `mon-serveur` ?
 
 ---
 
