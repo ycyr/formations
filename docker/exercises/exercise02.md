@@ -2,7 +2,7 @@
 📌 **Objectif** : Utilisez AWS Cloud9 pour lancer plusieurs conteneurs avec différentes images, arrêtez-les, redémarrez-les, et supprimez-les.
   
 
-### **1️⃣ Lancer deux conteneurs **
+### **1️⃣ Lancer deux conteneurs**
 Exécutez dans un terminal :  
 ```
 docker run -d --name webserver nginx
@@ -11,7 +11,7 @@ docker ps
 ```
 👉 **Résultat attendu** : Vous devez voir vos conteneurs qui roulent  
 
-### **2️⃣ Lancer la même commande pour la base de données **
+### **2️⃣ Lancer la même commande pour la base de données**
 Exécutez :  
 ```
 docker run -d --name database redis
@@ -40,7 +40,7 @@ Rédémarrer le conteneur webserver
 docker start webserver
 ```
 
-### **4️⃣ Arrêt et destruction du conteneur webserver **
+### **4️⃣ Arrêt et destruction du conteneur webserver**
 
 ```
 docker rm  webserver
