@@ -4,7 +4,7 @@
 ### **💡 Étapes :**
 1️⃣ **Lancer un conteneur Ubuntu en mode détaché (`-d`)**  
    ```sh
-   docker run -dit --name mon-container ubuntu bash
+   docker run -d --name mon-container ubuntu sleep 3600
    ```
 2️⃣ **Lister les conteneurs en cours d’exécution**  
    ```sh
@@ -15,7 +15,7 @@
    docker exec -it mon-container bash
    ```
    👉 **Vérifiez que vous êtes bien dans un environnement Ubuntu.**
-4️⃣ **Sortir du conteneur sans l’arrêter (`Ctrl + P + Q`)**  
+4️⃣ **Sortir du conteneur sans l’arrêter (`Ctrl-p + Ctrl-q`)**  
 5️⃣ **Arrêter le conteneur**  
    ```sh
    docker stop mon-container
