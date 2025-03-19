@@ -1,6 +1,6 @@
 
 
-# **📝 Exercice 16 : Introduction à Docker Compose 🚀**
+# **📝 Exercice 16 : Introduction à Docker Compose**
 
 ## **📌 Objectif**
 Cet exercice va vous aider à comprendre comment **déployer une application multi-conteneurs** avec **Docker Compose**.  
