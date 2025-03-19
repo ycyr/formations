@@ -1,6 +1,6 @@
 
 
-# **📝 Exercice 18: Déploiement sécurisé et optimisé avec Docker Compose 🚀**
+# **📝 Exercice 18: Déploiement sécurisé et optimisé avec Docker Compose**
 
 ## **📌 Objectif**
 Dans cet exercice, vous allez apprendre à **mettre en place une application robuste avec Docker Compose** en intégrant :  
