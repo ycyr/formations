@@ -14,7 +14,7 @@ while date; do sleep 5; done
 
 ### **3️⃣ Ajouter le package nano dans votre image et un tag *v2***
 
-* Astuce: Dans ubuntu pour installer le package "nano" *
+* Astuce: Dans ubuntu pour installer le package *"nano"*
 ```
 apt update
 apt install -y NOM_PACKAGE
