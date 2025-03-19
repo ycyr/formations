@@ -12,16 +12,17 @@ while date; do sleep 5; done
 ### **2️⃣ Tester le fonctionnement de votre image, et que voyez-vous**
 
 
-### **3️⃣ Ajouter le package nano dans votre image et un tag *v2*
+### **3️⃣ Ajouter le package nano dans votre image et un tag *v2***
 
-* Astuce: Dans ubuntu pour installer un package *
+* Astuce: Dans ubuntu pour installer le package "nano" *
 ```
 apt update
 apt install -y NOM_PACKAGE
 ````
 
-### **4️⃣ Afficher les couches de votre
+### **4️⃣ Afficher les couches de votre 
 
+* Astuce: utiliser la commande suivante pour afficher les couches *
 ```
 docker history ID_IMAGE
 ````
@@ -33,7 +34,7 @@ docker history ID_IMAGE
 * Astuce: Dans Alpine pour installer un package *
 
 ```
-apk add --no-cache  NOM_PACKAGE
+apk add   NOM_PACKAGE
 ```
 
 ### **6️⃣ Comparer la taille de vos trois images**

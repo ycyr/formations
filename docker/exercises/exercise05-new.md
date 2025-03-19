@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+## **🛠 Exercice 5 : Créer et utiliser un volume Docker**
+>>>>>>> 309d184949078e0d1184982e050dd86bf993347a
 
 # **📝 Exercice 9 : Utilisation des Variables d'Environnement dans Docker 🚀**
 
@@ -15,6 +19,7 @@ Cet exercice vous permettra de comprendre comment utiliser les **variables d’e
    ```dockerfile
    FROM ubuntu:latest
 
+<<<<<<< HEAD
    # Définition d'une variable d'environnement
    ENV MESSAGE="Bonjour depuis Docker !"
 
@@ -29,6 +34,12 @@ Cet exercice vous permettra de comprendre comment utiliser les **variables d’e
    docker run env-example
    ```
    **Question :** Quelle est la valeur affichée et d’où vient-elle ?
+=======
+7️⃣ **Supprimer un volume (après suppression des conteneurs qui l’utilisent)**
+```sh
+docker volume rm mon-volume
+```
+>>>>>>> 309d184949078e0d1184982e050dd86bf993347a
 
 4. **Essayez de passer une nouvelle valeur à `MESSAGE` lors de l’exécution** :
    ```sh
@@ -38,6 +49,7 @@ Cet exercice vous permettra de comprendre comment utiliser les **variables d’e
 
 ---
 
+<<<<<<< HEAD
 ## **🎯 Partie 2 : Définition des variables via un fichier `.env`**
 1. **Créez un fichier `.env` dans `env_test/`** avec le contenu suivant :
    ```ini
@@ -96,3 +108,6 @@ Dans cet exercice, vous avez appris que :
 ✔️ **On peut les passer dynamiquement avec `-e` lors de l’exécution**.  
 ✔️ **Les fichiers `.env` permettent de centraliser les variables sans les écrire dans le `Dockerfile`**.  
 ✔️ **Les applications peuvent lire ces variables avec `os.getenv()` en Python**.  
+=======
+[Aide Mémoire Dockerfile](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/dockerfile-cheatsheet.md)
+>>>>>>> 309d184949078e0d1184982e050dd86bf993347a
