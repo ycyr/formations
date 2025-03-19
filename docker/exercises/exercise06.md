@@ -1,36 +1,98 @@
-## **🛠 Exercice 6 : Monter un fichier spécifique en bind mount**
-📌 **Objectif** : Monter **un seul fichier** de l’hôte dans un conteneur et observer son comportement.
+# **📝 Exercice : Différencier `CMD` et `ENTRYPOINT` dans un `Dockerfile` 🚀**
 
-### **💡 Étapes :**
-1️⃣ **Créer un fichier sur l’hôte** :
-   ```sh
-   echo "Contenu initial du fichier" > mon-fichier.txt
+## **📌 Objectif**
+Cet exercice a pour but d’aider à comprendre la différence entre **CMD** et **ENTRYPOINT** dans un `Dockerfile`.  
+Vous allez :  
+✅ **Créer deux images Docker** : une utilisant `CMD` et l'autre `ENTRYPOINT`.  
+✅ **Lancer des conteneurs et observer le comportement**.  
+✅ **Modifier les commandes au lancement et comparer les résultats**.  
+
+---
+
+## **🎯 Partie 1 : Création d’une image avec `CMD`**
+1. **Créez un dossier `cmd_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
+
+   CMD ["echo", "Bonjour, ceci est une exécution par défaut avec CMD !"]
    ```
-2️⃣ **Lancer un conteneur et monter ce fichier en bind mount** :
+2. **Construisez l’image Docker** :
    ```sh
-   docker run -dit --name conteneurFichier -v $(pwd)/mon-fichier.txt:/data/mon-fichier.txt ubuntu bash
+   docker build -t cmd-example ./cmd_test
    ```
-3️⃣ **Modifier le fichier à partir du conteneur** :
+3. **Lancez un conteneur et observez le comportement** :
    ```sh
-   docker exec -it conteneurFichier bash -c "echo 'Modifié depuis le conteneur' >> /data/mon-fichier.txt"
+   docker run cmd-example
    ```
-4️⃣ **Vérifier que la modification est visible depuis l’hôte** :
+   **Question :** Quel est le message affiché dans le terminal ?
+
+4. **Essayez d’écraser la commande au lancement du conteneur** :
    ```sh
-   cat mon-fichier.txt
+   docker run cmd-example ls -l
    ```
-5️⃣ **Modifier le fichier depuis l’hôte et voir les changements dans le conteneur** :
+   **Question :** Que se passe-t-il et pourquoi ?
+
+---
+
+## **🎯 Partie 2 : Création d’une image avec `ENTRYPOINT`**
+1. **Créez un dossier `entrypoint_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
+
+   ENTRYPOINT ["echo", "Bonjour, ceci est une exécution forcée avec ENTRYPOINT !"]
+   ```
+2. **Construisez l’image Docker** :
    ```sh
-   echo "Modifié depuis l'hôte" >> mon-fichier.txt
-   docker exec -it conteneurFichier cat /data/mon-fichier.txt
+   docker build -t entrypoint-example ./entrypoint_test
    ```
+3. **Lancez un conteneur et observez le comportement** :
+   ```sh
+   docker run entrypoint-example
+   ```
+   **Question :** Quel est le message affiché dans le terminal ?
 
-📌 **Questions** :
-- Que se passe-t-il si le conteneur est supprimé ?
-- Que se passe-t-il si on relance le conteneur sans le bind mount ?
+4. **Essayez d’écraser la commande au lancement du conteneur** :
+   ```sh
+   docker run entrypoint-example ls -l
+   ```
+   **Question :** Pourquoi la commande `ls -l` n’a-t-elle pas été exécutée ?
 
+---
 
-## *Références*
+## **🎯 Partie 3 : Utiliser `ENTRYPOINT` avec `CMD` pour plus de flexibilité**
+1. **Créez un dossier `entrypoint_cmd_test/` et ajoutez un fichier `Dockerfile`** :
+   ```dockerfile
+   FROM ubuntu:latest
 
-[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)
+   ENTRYPOINT ["echo"]
+   CMD ["Ceci est un message par défaut avec CMD"]
+   ```
+2. **Construisez l’image Docker** :
+   ```sh
+   docker build -t entrypoint-cmd-example ./entrypoint_cmd_test
+   ```
+3. **Lancez un conteneur et observez le comportement** :
+   ```sh
+   docker run entrypoint-cmd-example
+   ```
+   **Question :** Pourquoi voit-on `Ceci est un message par défaut avec CMD` ?
 
-[Aide Mémoire Dockerfile](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/dockerfile-cheatsheet.md)
+4. **Écrasez uniquement `CMD` avec une autre commande** :
+   ```sh
+   docker run entrypoint-cmd-example "Un autre message"
+   ```
+   **Question :** Que se passe-t-il et pourquoi ?
+
+5. **Essayez d’écraser `ENTRYPOINT` au lancement** :
+   ```sh
+   docker run --entrypoint "/bin/bash" entrypoint-cmd-example -c "ls -l"
+   ```
+   **Question :** Quelle est la différence avec l’écrasement de `CMD` ?
+
+---
+
+## **✅ Conclusion**
+Dans cet exercice, vous avez appris que :  
+✔️ **`CMD` est une commande par défaut qui peut être remplacée au runtime**.  
+✔️ **`ENTRYPOINT` définit une commande obligatoire qui ne peut pas être remplacée facilement**.  
+✔️ **`CMD` peut être utilisé en complément de `ENTRYPOINT` pour plus de flexibilité**. 

@@ -1,98 +1,104 @@
+# **📝 Exercice 7 : Comprendre le mode `bridge`, l’exposition des ports avec `-p`, `-P`, et l’option `--link`**
 
-# **📝 Exercice 9 : Utilisation des Variables d'Environnement dans Docker 🚀**
 
-## **📌 Objectif**
-Cet exercice vous permettra de comprendre comment utiliser les **variables d’environnement** dans un `Dockerfile` et lors de l’exécution d’un conteneur.
-
-✅ **Définir des variables d’environnement dans un `Dockerfile`**  
-✅ **Passer des variables lors du lancement d’un conteneur**  
-✅ **Utiliser un fichier `.env` pour gérer les variables**  
+## **🎯 Partie 1 : Utilisation du mode `bridge`**
+1. Listez les réseaux existants sur votre machine Docker :
+   ```sh
+   docker network ls
+   ```
+2. Identifiez le réseau `bridge` et inspectez-le :
+   ```sh
+   docker network inspect bridge
+   ```
+3. Lancez un conteneur **nginx** dans le réseau `bridge` :
+   ```sh
+   docker run -d --name webserver --network bridge nginx
+   ```
+4. Vérifiez l’IP du conteneur et testez son accessibilité :
+   ```sh
+   docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' webserver
+   ```
+5. Depuis un **autre conteneur**, essayez d’accéder au service :
+   ```sh
+   docker run --rm --network bridge curl <IP-DU-CONTENEUR>:80
+   ```
+   **Question :** Pourquoi ce test fonctionne-t-il uniquement depuis un autre conteneur du même réseau ?
 
 ---
 
-## **🎯 Partie 1 : Définition des variables d’environnement dans un `Dockerfile`**
-1. **Créez un dossier `env_test/` et ajoutez un fichier `Dockerfile`** :
-   ```dockerfile
-   FROM ubuntu:latest
-
-   # Définition d'une variable d'environnement
-   ENV MESSAGE="Bonjour depuis Docker !"
-
-   CMD ["bash", "-c", "echo $MESSAGE"]
-   ```
-2. **Construisez l’image Docker** :
+## **🎯 Partie 2 : Exposer des ports avec `-p` (port mapping manuel)**
+1. Supprimez le conteneur précédent :
    ```sh
-   docker build -t env-example ./env_test
+   docker rm -f webserver
    ```
-3. **Lancez un conteneur et observez le message affiché** :
+2. Relancez `nginx` avec un **port exposé manuellement** (`-p`) :
    ```sh
-   docker run env-example
+   docker run -d --name webserver -p 8080:80 nginx
    ```
-   **Question :** Quelle est la valeur affichée et d’où vient-elle ?
-
-4. **Essayez de passer une nouvelle valeur à `MESSAGE` lors de l’exécution** :
+3. Depuis votre **navigateur ou en ligne de commande**, testez l’accès :
    ```sh
-   docker run -e MESSAGE="Salut les étudiants ! 🚀" env-example
+   curl http://localhost:8080
    ```
-   **Question :** Pourquoi la valeur de `MESSAGE` a-t-elle changé ?
+4. Listez les ports **exposés** du conteneur :
+   ```sh
+   docker ps
+   ```
+   **Question :** Pourquoi l’application est accessible depuis l’extérieur de Docker cette fois-ci ?
 
 ---
 
-## **🎯 Partie 2 : Définition des variables via un fichier `.env`**
-1. **Créez un fichier `.env` dans `env_test/`** avec le contenu suivant :
-   ```ini
-   MESSAGE="Bonjour depuis le fichier .env !"
-   ```
-2. **Lancez un conteneur en chargeant les variables depuis le fichier `.env`** :
+## **🎯 Partie 3 : Exposer des ports avec `-P` (port mapping automatique)**
+1. Supprimez à nouveau le conteneur :
    ```sh
-   docker run --env-file ./env_test/.env env-example
+   docker rm -f webserver
    ```
-3. **Explication** :  
-   - `--env-file` charge automatiquement **les variables définies dans le fichier `.env`**.
-   - Cela permet de **gérer proprement des variables sensibles** comme des mots de passe.
-
-   **Question :** Quels sont les avantages d’utiliser un fichier `.env` plutôt que `-e` ?
+2. Relancez `nginx` avec `-P` (exposition automatique des ports) :
+   ```sh
+   docker run -d --name webserver -P nginx
+   ```
+3. Listez les ports assignés par Docker :
+   ```sh
+   docker ps
+   ```
+   **Question :** Quelle différence voyez-vous avec `-p` ?
+4. Testez l’accès au conteneur en utilisant le port assigné dynamiquement :
+   ```sh
+   curl http://localhost:<PORT_ASSIGNÉ>
+   ```
+   **Question :** Pourquoi Docker attribue-t-il un port différent chaque fois ?
 
 ---
 
-## **🎯 Partie 3 : Passer des variables d’environnement à une application Python**
-1. **Créez un fichier `app.py` dans `env_test/`** avec le contenu suivant :
-   ```python
-   import os
-
-   message = os.getenv("MESSAGE", "Valeur par défaut !")
-   print(f"Le message est : {message}")
-   ```
-2. **Modifiez votre `Dockerfile` pour exécuter le script Python** :
-   ```dockerfile
-   FROM python:3.9-slim
-
-   WORKDIR /app
-
-   COPY app.py .
-
-   ENV MESSAGE="Message par défaut dans le Dockerfile"
-
-   CMD ["python", "app.py"]
-   ```
-3. **Recréez l’image Docker** :
+## **🎯 Partie 4 : Connecter des conteneurs avec `--link`**
+1. Supprimez tous les conteneurs existants :
    ```sh
-   docker build -t env-python-example ./env_test
+   docker rm -f webserver
    ```
-4. **Testez l’exécution avec différentes valeurs de variables** :
+2. Lancez un conteneur **nginx** en arrière-plan :
    ```sh
-   docker run env-python-example
-   docker run -e MESSAGE="Nouveau message !" env-python-example
-   docker run --env-file ./env_test/.env env-python-example
+   docker run -d --name webserver nginx
    ```
-
-   **Question :** Comment la variable est-elle récupérée dans Python ?
+3. Lancez un autre conteneur et établissez un lien avec `webserver` :
+   ```sh
+   docker run -it --rm --link webserver:mon-serveur alpine sh
+   ```
+4. Testez la connexion au conteneur `webserver` :
+   ```sh
+   curl mon-serveur
+   ```
+   **Question :** Pourquoi le conteneur `alpine` peut-il accéder à `webserver` avec `mon-serveur` ?
 
 ---
 
 ## **✅ Conclusion**
-Dans cet exercice, vous avez appris que :  
-✔️ **Les variables d’environnement peuvent être définies dans un `Dockerfile` avec `ENV`**.  
-✔️ **On peut les passer dynamiquement avec `-e` lors de l’exécution**.  
-✔️ **Les fichiers `.env` permettent de centraliser les variables sans les écrire dans le `Dockerfile`**.  
-✔️ **Les applications peuvent lire ces variables avec `os.getenv()` en Python**.  
+Dans cet exercice, vous avez appris :
+- **Le mode `bridge` et comment les conteneurs peuvent communiquer entre eux**.
+- **La différence entre `-p` et `-P` pour l’exposition des ports**.
+- **Pourquoi un conteneur en `bridge` n’est pas directement accessible depuis l’hôte sans port mapping**.
+- **Comment utiliser `--link` pour connecter des conteneurs entre eux**.
+
+## *Références*
+
+[Aide Mémoire Docker cli](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/docker-cli-cheatsheet.md)
+
+[Aide Mémoire Dockerfile](https://github.com/ycyr/formations/blob/main/docker/aide-memoire/dockerfile-cheatsheet.md)

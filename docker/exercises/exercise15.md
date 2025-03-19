@@ -1,106 +1,138 @@
-
-
-# **📝 Exercice : Introduction à Docker Compose 🚀**
+# **📝 Exercice : Optimisation d’image Docker avec Multi-Stage Build 🚀**
 
 ## **📌 Objectif**
-Cet exercice va vous aider à comprendre comment **déployer une application multi-conteneurs** avec **Docker Compose**.  
-Vous allez :  
-✅ **Créer un `docker-compose.yml` pour lancer un serveur web et une base de données**.  
-✅ **Apprendre à démarrer et arrêter plusieurs services simultanément**.  
-✅ **Vérifier l’interconnexion entre les conteneurs**.  
-
----
-## **Installation de docker-compose**
-
-Si la commande docker-compose n'est pas installé veuillez ces commandes
-
-```sh
-sudo curl -SL https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-```
-```sh
-sudo chmod +x /usr/local/bin/docker-compose
-```
+Cet exercice va vous permettre d’**optimiser vos images Docker** en utilisant **Multi-Stage Build**.  
+Vous allez apprendre à :  
+✅ **Séparer l’étape de build et d’exécution** pour alléger l’image finale  
+✅ **Construire une image optimisée et sécurisée**  
+✅ **Réduire la taille de l’image tout en conservant les fichiers nécessaires**  
 
 ---
 
-## **🎯 Partie 1 : Préparation du projet**
-1. **Créez un dossier `docker-compose-test/` et placez-vous dedans** :
+## **🎯 Partie 1 : Création d’une application Node.js**
+1. **Créez un dossier `multi-stage-app/` et placez-vous dedans** :
    ```sh
-   mkdir docker-compose-test && cd docker-compose-test
+   mkdir multi-stage-app && cd multi-stage-app
    ```
-2. **Créez un fichier `docker-compose.yml`** :
-   ```yaml
-   version: '3.8'
+2. **Créez un fichier `server.js` contenant une simple API Express.js** :
+   ```javascript
+   const express = require("express");
+   const app = express();
 
-   services:
-     web:
-       image: nginx
-       ports:
-         - "8080:80"
-       networks:
-         - app-network
+   app.get("/", (req, res) => {
+       res.send("Hello, Docker Multi-Stage Build!");
+   });
 
-     database:
-       image: mysql:5.7
-       environment:
-         MYSQL_ROOT_PASSWORD: rootpassword
-         MYSQL_DATABASE: testdb
-         MYSQL_USER: user
-         MYSQL_PASSWORD: password
-       networks:
-         - app-network
+   app.listen(3000, () => {
+       console.log("Server running on port 3000");
+   });
+   ```
+3. **Créez un fichier `package.json` contenant les dépendances** :
+   ```json
+   {
+       "name": "multi-stage-app",
+       "version": "1.0.0",
+       "description": "A simple Node.js app optimized with Multi-Stage Build",
+       "main": "server.js",
+       "scripts": {
+           "start": "node server.js"
+       },
+       "dependencies": {
+           "express": "^4.18.2"
+       }
+   }
+   ```
 
-   networks:
-     app-network:
+4. **Installez les dépendances** (optionnel pour tester en local) :
+   ```sh
+   npm install
    ```
 
 ---
 
-## **🎯 Partie 2 : Démarrer l’application avec Docker Compose**
-1. **Lancer les services** :
-   ```sh
-   docker-compose up -d
-   ```
-2. **Vérifier que les conteneurs sont bien créés** :
-   ```sh
-   docker ps
-   docker-compose ps
-   ```
-3. **Accéder au serveur web depuis votre navigateur** en visitant :  
-   ```sh
-   curl http://localhost:8080
-   ```
-   **Question :** Pourquoi la page par défaut de Nginx s’affiche ?
+## **🎯 Partie 2 : Création d’un Dockerfile non optimisé**
+1. **Créez un `Dockerfile` initial** sans optimisation :  
+   ```dockerfile
+   FROM node:18
 
-4. **Vérifier que la base de données est accessible depuis un conteneur `mysql-client`** :
-   ```sh
-   docker run --rm --network docker-compose-test_app-network mysql mysql -h database -u user -ppassword -e "SHOW DATABASES;"
+   WORKDIR /app
+
+   COPY package.json .
+   RUN npm install
+
+   COPY . .
+
+   CMD ["node", "server.js"]
    ```
+
+2. **Construisez l’image et observez sa taille** :  
+   ```sh
+   docker build -t node-unoptimized .
+   docker images
+   ```  
+   **Question** : Quelle est la taille de l’image ? Pourquoi est-elle aussi grande ?
 
 ---
 
-## **🎯 Partie 3 : Gestion des services**
-1. **Arrêter tous les conteneurs sans supprimer les données** :
-   ```sh
-   docker-compose down
+## **🎯 Partie 3 : Optimisation avec Multi-Stage Build**
+1. **Modifiez le `Dockerfile` pour utiliser une approche Multi-Stage** :  
+   ```dockerfile
+   # Étape 1 : Build
+   FROM node:18 AS builder
+   WORKDIR /app
+   COPY package.json .
+   RUN npm install
+   COPY . .
+   RUN npm run build
+
+   # Étape 2 : Image finale optimisée
+   FROM node:18-alpine
+   WORKDIR /app
+   COPY --from=builder /app/dist /app/dist
+   COPY --from=builder /app/node_modules /app/node_modules
+   CMD ["node", "dist/server.js"]
    ```
-2. **Relancer les services** :
+
+2. **Construisez cette nouvelle image et observez la différence de taille** :  
    ```sh
-   docker-compose up -d
-   ```
-3. **Arrêter et supprimer tous les conteneurs et le réseau** :
+   docker build -t node-optimized .
+   docker images
+   ```  
+   **Question** : Quelle est la réduction de taille ? Pourquoi cette approche est-elle plus efficace ?
+
+---
+
+## **🎯 Partie 4 : Vérifications et tests**
+1. **Lancez l’image non optimisée en arrière-plan** :  
    ```sh
-   docker-compose down --volumes --remove-orphans
+   docker run -d --name unoptimized -p 3000:3000 node-unoptimized
    ```
+
+2. **Testez l’application en accédant à `http://localhost:3000`**  
+   **Question** : L’application fonctionne-t-elle correctement ?
+
+3. **Arrêtez et supprimez l’ancien conteneur** :  
+   ```sh
+   docker stop unoptimized && docker rm unoptimized
+   ```
+
+4. **Lancez l’image optimisée** :  
+   ```sh
+   docker run -d --name optimized -p 3000:3000 node-optimized
+   ```
+
+5. **Comparez les performances et la consommation mémoire des deux versions** :  
+   ```sh
+   docker ps -a
+   docker stats
+   ```  
+   **Question** : Voyez-vous une différence dans la consommation de ressources ?
 
 ---
 
 ## **✅ Conclusion**
-Dans cet exercice, vous avez appris à :  
-✔️ **Créer un fichier `docker-compose.yml`**.  
-✔️ **Démarrer et arrêter plusieurs services avec une seule commande**.  
-✔️ **Connecter un serveur web et une base de données dans le même réseau**.  
-✔️ **Gérer facilement les conteneurs sans `docker run` manuel**.  
-
+🎯 **Vous avez appris à optimiser une image Docker en utilisant Multi-Stage Build !**  
+🎯 **Votre image est plus légère et sécurisée, tout en conservant les fichiers essentiels.**  
+🎯 **Cette approche est idéale pour les environnements de production !** 🚀  
 
 

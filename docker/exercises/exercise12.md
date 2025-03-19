@@ -30,7 +30,7 @@ Cet exercice va vous permettre de **maîtriser Docker** en **créant et déploya
 1. **Créez un dossier `backend/` et ajoutez un fichier `app.py`** avec le contenu suivant :
    ```python
    from flask import Flask
-   import pymysql
+
 
    app = Flask(__name__)
 
@@ -44,7 +44,6 @@ Cet exercice va vous permettre de **maîtriser Docker** en **créant et déploya
 2. **Créez un `requirements.txt`** dans `backend/` :
    ```
    flask
-   pymysql
    ```
 3. **Créez un `Dockerfile` dans `backend/`** :
    ```dockerfile

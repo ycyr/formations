@@ -1,205 +1,106 @@
 
 
-# **📝 Exercice : Déployer une application multi-conteneurs avec Docker Compose 🚀**
+# **📝 Exercice : Introduction à Docker Compose 🚀**
 
 ## **📌 Objectif**
-Cet exercice vous aidera à **gérer un projet complet avec Docker Compose**, comprenant :  
-✅ **Une API Flask (backend)**  
-✅ **Une base de données PostgreSQL**  
-✅ **Un serveur web Nginx comme reverse proxy**  
-✅ **Un réseau personnalisé pour la communication entre les services**  
+Cet exercice va vous aider à comprendre comment **déployer une application multi-conteneurs** avec **Docker Compose**.  
+Vous allez :  
+✅ **Créer un `docker-compose.yml` pour lancer un serveur web et une base de données**.  
+✅ **Apprendre à démarrer et arrêter plusieurs services simultanément**.  
+✅ **Vérifier l’interconnexion entre les conteneurs**.  
+
+---
+## **Installation de docker-compose**
+
+Si la commande docker-compose n'est pas installé veuillez ces commandes
+
+```sh
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.33.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+```
+```sh
+sudo chmod +x /usr/local/bin/docker-compose
+```
 
 ---
 
 ## **🎯 Partie 1 : Préparation du projet**
-1. **Créez un dossier `docker-compose-advanced/` et placez-vous dedans** :
+1. **Créez un dossier `docker-compose-test/` et placez-vous dedans** :
    ```sh
-   mkdir docker-compose-advanced && cd docker-compose-advanced
+   mkdir docker-compose-test && cd docker-compose-test
    ```
-2. **Créez un sous-dossier `backend/` et ajoutez un fichier `app.py`** :
-   ```python
-   from flask import Flask
-   import os
-   import psycopg2
-
-   app = Flask(__name__)
-
-   def get_db_connection():
-       conn = psycopg2.connect(
-           host=os.getenv("DB_HOST", "database"),
-           database=os.getenv("DB_NAME", "mydb"),
-           user=os.getenv("DB_USER", "user"),
-           password=os.getenv("DB_PASSWORD", "password")
-       )
-       return conn
-
-   @app.route('/')
-   def home():
-       return "Bienvenue sur l'API Flask 🚀"
-
-   @app.route('/db')
-   def db_test():
-       conn = get_db_connection()
-       cur = conn.cursor()
-       cur.execute("SELECT version();")
-       data = cur.fetchone()
-       cur.close()
-       conn.close()
-       return f"Version PostgreSQL: {data}"
-
-   if __name__ == '__main__':
-       app.run(host='0.0.0.0', port=5000)
-   ```
-
-3. **Créez un fichier `requirements.txt` pour le backend** :
-   ```
-   flask
-   psycopg2-binary
-   ```
-
-4. **Créez un `Dockerfile` pour le backend dans `backend/`** :
-   ```dockerfile
-   FROM python:3.9-slim
-
-   WORKDIR /app
-
-   COPY requirements.txt requirements.txt
-   RUN pip install -r requirements.txt
-
-   COPY . .
-
-   EXPOSE 5000
-
-   CMD ["python", "app.py"]
-   ```
-
----
-
-## **🎯 Partie 2 : Configuration de Docker Compose**
-1. **Dans le dossier `docker-compose-advanced/`, créez un fichier `docker-compose.yml`** :
+2. **Créez un fichier `docker-compose.yml`** :
    ```yaml
    version: '3.8'
 
    services:
-     database:
-       image: postgres:13
-       container_name: database
-       restart: always
-       environment:
-         POSTGRES_DB: mydb
-         POSTGRES_USER: user
-         POSTGRES_PASSWORD: password
-       volumes:
-         - pgdata:/var/lib/postgresql/data
-       networks:
-         - app-network
-
-     backend:
-       build: ./backend
-       container_name: backend
-       restart: always
-       depends_on:
-         - database
-       environment:
-         DB_HOST: database
-         DB_NAME: mydb
-         DB_USER: user
-         DB_PASSWORD: password
-       ports:
-         - "5000:5000"
-       networks:
-         - app-network
-
-     nginx:
-       image: nginx:latest
-       container_name: nginx
-       restart: always
-       depends_on:
-         - backend
-       volumes:
-         - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+     web:
+       image: nginx
        ports:
          - "8080:80"
        networks:
          - app-network
 
+     database:
+       image: mysql:5.7
+       environment:
+         MYSQL_ROOT_PASSWORD: rootpassword
+         MYSQL_DATABASE: testdb
+         MYSQL_USER: user
+         MYSQL_PASSWORD: password
+       networks:
+         - app-network
+
    networks:
      app-network:
-
-   volumes:
-     pgdata:
-   ```
-
-2. **Créez un dossier `nginx/` et ajoutez un fichier `default.conf` pour configurer le reverse proxy** :
-   ```nginx
-   server {
-       listen 80;
-       server_name localhost;
-
-       location / {
-           proxy_pass http://backend:5000/;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-       }
-   }
    ```
 
 ---
 
-## **🎯 Partie 3 : Démarrage et test des services**
-1. **Démarrez l'application avec Docker Compose** :
+## **🎯 Partie 2 : Démarrer l’application avec Docker Compose**
+1. **Lancer les services** :
    ```sh
-   docker-compose up -d --build
+   docker-compose up -d
    ```
-2. **Vérifiez que les services sont bien démarrés** :
+2. **Vérifier que les conteneurs sont bien créés** :
    ```sh
    docker ps
+   docker-compose ps
    ```
-3. **Testez l'API Flask directement via le backend** :
-   ```sh
-   curl http://localhost:5000
-   ```
-   **Question :** Que renvoie cette requête ?
-
-4. **Testez la connexion avec PostgreSQL** :
-   ```sh
-   curl http://localhost:5000/db
-   ```
-   **Question :** Que renvoie cette requête ?
-
-5. **Testez l'accès à l'API via le reverse proxy Nginx** :
+3. **Accéder au serveur web depuis votre navigateur** en visitant :  
    ```sh
    curl http://localhost:8080
    ```
-   **Question :** Pourquoi cette requête passe-t-elle par Nginx ?
+   **Question :** Pourquoi la page par défaut de Nginx s’affiche ?
+
+4. **Vérifier que la base de données est accessible depuis un conteneur `mysql-client`** :
+   ```sh
+   docker run --rm --network docker-compose-test_app-network mysql mysql -h database -u user -ppassword -e "SHOW DATABASES;"
+   ```
 
 ---
 
-## **🎯 Partie 4 : Gestion des logs et maintenance**
-1. **Afficher les logs d’un service spécifique** :
+## **🎯 Partie 3 : Gestion des services**
+1. **Arrêter tous les conteneurs sans supprimer les données** :
    ```sh
-   docker-compose logs backend
+   docker-compose down
    ```
-2. **Vérifier la connectivité entre les conteneurs** :
+2. **Relancer les services** :
    ```sh
-   docker exec -it backend ping database
+   docker-compose up -d
    ```
-3. **Redémarrer un service spécifique sans affecter les autres** :
+3. **Arrêter et supprimer tous les conteneurs et le réseau** :
    ```sh
-   docker-compose restart nginx
-   ```
-4. **Arrêter tous les services et nettoyer les volumes** :
-   ```sh
-   docker-compose down --volumes
+   docker-compose down --volumes --remove-orphans
    ```
 
 ---
 
 ## **✅ Conclusion**
 Dans cet exercice, vous avez appris à :  
-✔️ **Créer et configurer une application multi-conteneurs avec Docker Compose**.  
-✔️ **Gérer une base de données PostgreSQL et un backend Flask**.  
-✔️ **Mettre en place un reverse proxy Nginx pour exposer l'API**.  
-✔️ **Démarrer, tester et maintenir les services avec Docker Compose**.  
+✔️ **Créer un fichier `docker-compose.yml`**.  
+✔️ **Démarrer et arrêter plusieurs services avec une seule commande**.  
+✔️ **Connecter un serveur web et une base de données dans le même réseau**.  
+✔️ **Gérer facilement les conteneurs sans `docker run` manuel**.  
+
 
 
