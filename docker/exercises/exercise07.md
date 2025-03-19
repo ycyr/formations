@@ -36,7 +36,7 @@ docker volume inspect mon-volume
 7️⃣ **Supprimer un volume (après suppression des conteneurs qui l’utilisent)**
 ```sh
 docker volume rm mon-volume
-
+```
 
 ## *Références*
 
