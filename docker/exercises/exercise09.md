@@ -20,7 +20,7 @@
    ```
 5. Depuis un **autre conteneur**, essayez d’accéder au service :
    ```sh
-   docker run --rm --network bridge curl <IP-DU-CONTENEUR>:80
+   docker run --rm --network bridge alpine/curl <IP-DU-CONTENEUR>:80
    ```
    **Question :** Pourquoi ce test fonctionne-t-il uniquement depuis un autre conteneur du même réseau ?
 
