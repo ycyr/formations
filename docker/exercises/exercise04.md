@@ -1,7 +1,7 @@
 ## **🛠 Exercice 4 : Créer un image personnalisée**
 
 
-### **1️⃣ Créer une image per à partie de ubuntu:latest qui affiche l'heure du contenue à chaque 2 secondes**
+### **1️⃣ Créer une image per à partie de *ubuntu:latest* qui affiche l'heure du contenue à chaque 2 secondes**
  
 *Astuce: Dans linux pour afficher l'heure à chaque 5 secondes*
 
@@ -20,7 +20,7 @@ apt update
 apt install -y NOM_PACKAGE
 ````
 
-### **4️⃣ Afficher les couches de votre 
+### **4️⃣ Afficher les couches de votre image** 
 
 * Astuce: utiliser la commande suivante pour afficher les couches *
 ```
