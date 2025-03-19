@@ -1,4 +1,4 @@
-## **🛠 Exercice 5 : Créer et utiliser un volume Docker**
+## **🛠 Exercice 7 : Créer et utiliser un volume Docker**
 
 
 1️⃣ **Créer un volume**
