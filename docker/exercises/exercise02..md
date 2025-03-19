@@ -1,4 +1,3 @@
-
 ## **🛠 Exercice 2 : Créer et gérer des conteneurs**
 📌 **Objectif** : Utilisez AWS Cloud9 pour lancer plusieurs conteneurs avec différentes images, arrêtez-les, redémarrez-les, et supprimez-les.
   

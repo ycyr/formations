@@ -1,6 +1,6 @@
 
 
-# **📝 Exercice avancé : Dockerisation complète  🚀**
+# **📝 Exercice avancé 12 : Dockerisation complète  🚀**
 
 ## **📌 Objectif**
 Cet exercice va vous permettre de **maîtriser Docker** en **créant et déployant une application multi-conteneurs avancée** 

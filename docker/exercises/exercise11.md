@@ -1,4 +1,4 @@
-# **📝 Exercice complet : Révision des concepts  🚀**
+# **📝 Exercice 11 : Révision des concepts  🚀**
 
 ## **📌 Objectif**
 Cet exercice va vous permettre de pratiquer **toutes les notions vues jusqu’à présent** :

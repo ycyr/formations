@@ -1,4 +1,4 @@
-# **📝 Exercice : Optimisation d’image Docker avec Multi-Stage Build 🚀**
+# **📝 Exercice 15 : Optimisation d’image Docker avec Multi-Stage Build 🚀**
 
 ## **📌 Objectif**
 Cet exercice va vous permettre d’**optimiser vos images Docker** en utilisant **Multi-Stage Build**.  

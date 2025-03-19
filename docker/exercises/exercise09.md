@@ -1,4 +1,4 @@
-# **📝 Exercice 7 : Comprendre le mode `bridge`, l’exposition des ports avec `-p`, `-P`, et l’option `--link`**
+# **📝 Exercice 9 : Comprendre le mode `bridge`, l’exposition des ports avec `-p`, `-P`, et l’option `--link`**
 
 
 ## **🎯 Partie 1 : Utilisation du mode `bridge`**

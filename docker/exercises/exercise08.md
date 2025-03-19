@@ -1,4 +1,4 @@
-## **🛠 Exercice 6 : Monter un fichier spécifique en bind mount**
+## **🛠 Exercice 8 : Monter un fichier spécifique en bind mount**
 📌 **Objectif** : Monter **un seul fichier** de l’hôte dans un conteneur et observer son comportement.
 
 ### **💡 Étapes :**

@@ -1,4 +1,4 @@
-### **🛠 Exercice 8 : Tester la connexion entre deux conteneurs**
+### **🛠 Exercice 10 : Tester la connexion entre deux conteneurs**
 1️⃣ **Lancer un conteneur "serveur"** :
 ```sh
 docker run -d --name serveur nginx

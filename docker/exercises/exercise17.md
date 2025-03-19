@@ -1,6 +1,6 @@
 
 
-# **📝 Exercice : Déployer une application multi-conteneurs avec Docker Compose 🚀**
+# **📝 Exercice 17 : Déployer une application multi-conteneurs avec Docker Compose 🚀**
 
 ## **📌 Objectif**
 Cet exercice vous aidera à **gérer un projet complet avec Docker Compose**, comprenant :  
