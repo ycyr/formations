@@ -118,7 +118,7 @@ L’application se compose de :
    volumes:
      backend_data:
    ```
-*Note: Par défaut, Compose fournit une connectivité externe aux réseaux. L'option internal, lorsqu'elle est définie sur true, permet de créer un réseau isolé de l'extérieur.*
+*Note: Par défaut, Compose fournit une connectivité externe aux réseaux. **L'option internal**, lorsqu'elle est définie sur true, permet de créer un réseau isolé de l'extérieur.*
 
 2. **Créez un dossier `nginx/` et ajoutez un fichier `default.conf` pour le reverse proxy** :
    ```nginx
