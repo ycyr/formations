@@ -3,7 +3,7 @@
 - Lancer un serveur **Nginx sécurisé**.
 - **Limiter les droits et ses ressources**.
 - **Bloquer l’accès Internet**.
-- **Exporter ses logs** vers `syslog`.
+
 
 ### **💡 Étapes**
 1️⃣ **Créer un conteneur sécurisé** :
