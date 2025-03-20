@@ -1,4 +1,4 @@
-## **🛠 Exercice 1 : Manipuler les Conteneurs**
+## **🛠 Exercice 3 : Manipuler les Conteneurs**
 📌 **Objectif** : Prendre en main les commandes de base Docker.
 
 ### **💡 Étapes :**
@@ -15,7 +15,8 @@
    docker exec -it mon-container bash
    ```
    👉 **Vérifiez que vous êtes bien dans un environnement Ubuntu.**
-4️⃣ **Sortir du conteneur sans l’arrêter (`Ctrl-p + Ctrl-q`)**  
+4️⃣ **Sortir du conteneur sans l’arrêter (`exit`)**  
+
 5️⃣ **Arrêter le conteneur**  
    ```sh
    docker stop mon-container

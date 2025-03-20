@@ -1,4 +1,4 @@
-# **📝 Exercice 15 : Optimisation d’image Docker avec Multi-Stage Build 🚀**
+# **📝 Exercice 15 : Optimisation d’image Docker avec Multi-Stage Build**
 
 ## **📌 Objectif**
 Cet exercice va vous permettre d’**optimiser vos images Docker** en utilisant **Multi-Stage Build**.  
@@ -83,14 +83,15 @@ Vous allez apprendre à :
    COPY package.json .
    RUN npm install
    COPY . .
-   RUN npm run build
 
    # Étape 2 : Image finale optimisée
    FROM node:18-alpine
    WORKDIR /app
-   COPY --from=builder /app/dist /app/dist
    COPY --from=builder /app/node_modules /app/node_modules
-   CMD ["node", "dist/server.js"]
+   COPY . .
+   CMD ["node", "server.js"]
+
+   
    ```
 
 2. **Construisez cette nouvelle image et observez la différence de taille** :  
@@ -111,19 +112,17 @@ Vous allez apprendre à :
 2. **Testez l’application en accédant à `http://localhost:3000`**  
    **Question** : L’application fonctionne-t-elle correctement ?
 
-3. **Arrêtez et supprimez l’ancien conteneur** :  
-   ```sh
-   docker stop unoptimized && docker rm unoptimized
-   ```
 
-4. **Lancez l’image optimisée** :  
+3. **Lancez l’image optimisée** :  
    ```sh
-   docker run -d --name optimized -p 3000:3000 node-optimized
+   docker run -d --name optimized -p 3001:3000 node-optimized
    ```
+   
+4. **Testez l’application avec l'image optimisée  en accédant à `http://localhost:3001`**  
+   **Question** : L’application fonctionne-t-elle correctement ?
 
 5. **Comparez les performances et la consommation mémoire des deux versions** :  
    ```sh
-   docker ps -a
    docker stats
    ```  
    **Question** : Voyez-vous une différence dans la consommation de ressources ?

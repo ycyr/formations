@@ -8,9 +8,7 @@
 ### **💡 Étapes**
 1️⃣ **Créer un conteneur sécurisé** :
 ```sh
-docker run -ti --name secure-nginx \
-  --cap-drop=ALL \
-  nginx
+docker run -ti --name secure-nginx --cap-drop=ALL nginx
 ```
 📌 **Attendu :** Le conteneur ne fonctionne pas, tu l'as enlevé tous ses privilèges avec --cap-drop=ALL
 

@@ -1,5 +1,5 @@
 
-# **📝 Exercice 5 : Utilisation des Variables d'Environnement dans Docker 🚀**
+# **📝 Exercice 5 : Utilisation des Variables d'Environnement dans Docker**
 
 ## **📌 Objectif**
 Cet exercice vous permettra de comprendre comment utiliser les **variables d’environnement** dans un `Dockerfile` et lors de l’exécution d’un conteneur.

@@ -1,4 +1,4 @@
-# **📝 Exercice 6 : Différencier `CMD` et `ENTRYPOINT` dans un `Dockerfile` 🚀**
+# **📝 Exercice 6 : Différencier `CMD` et `ENTRYPOINT` dans un `Dockerfile`**
 
 ## **📌 Objectif**
 Cet exercice a pour but d’aider à comprendre la différence entre **CMD** et **ENTRYPOINT** dans un `Dockerfile`.  

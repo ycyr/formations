@@ -1,4 +1,4 @@
-## **🛠 Exercice 5 : Créer et utiliser un volume Docker **
+## **🛠 Exercice 7 : Créer et utiliser un volume Docker**
 
 
 1️⃣ **Créer un volume**
@@ -36,7 +36,7 @@ docker volume inspect mon-volume
 7️⃣ **Supprimer un volume (après suppression des conteneurs qui l’utilisent)**
 ```sh
 docker volume rm mon-volume
-
+```
 
 ## *Références*
 
