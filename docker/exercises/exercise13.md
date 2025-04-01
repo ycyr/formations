@@ -3,7 +3,7 @@
 - Lancer un serveur **Nginx sécurisé**.
 - **Limiter les droits et ses ressources**.
 - **Bloquer l’accès Internet**.
-- **Exporter ses logs** vers `syslog`.
+
 
 ### **💡 Étapes**
 1️⃣ **Créer un conteneur sécurisé** :
@@ -14,7 +14,7 @@ docker run -ti --name secure-nginx --cap-drop=ALL nginx
 
 2️⃣ **Ajouter les options suivantes: --cap-add=CHOWN  --cap-add=SETGID --cap-add=SETUID** :
 
-👉 **Attendu :** Le contenur secure-nginx est fonctionnel
+👉 **Attendu :** Le conteneur secure-nginx est fonctionnel
 
 
 3️⃣ **Vérifier l’utilisateur en cours d’exécution** :

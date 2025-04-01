@@ -11,7 +11,7 @@ Dans cet exercice, vous allez apprendre à **mettre en place une application rob
 ✅ **Exposition des ports** (accès contrôlé aux services)  
 
 L’application se compose de :  
-- Un **backend Python Flask** avec une base de données SQLite.  
+- Un **backend Python Flask** .  
 - Un **serveur Nginx** en tant que proxy inverse.  
 - Un **stockage persistant pour les logs et la base de données**.  
 
@@ -118,6 +118,7 @@ L’application se compose de :
    volumes:
      backend_data:
    ```
+*Note: Par défaut, Compose fournit une connectivité externe aux réseaux. **L'option internal**, lorsqu'elle est définie sur true, permet de créer un réseau isolé de l'extérieur.*
 
 2. **Créez un dossier `nginx/` et ajoutez un fichier `default.conf` pour le reverse proxy** :
    ```nginx
