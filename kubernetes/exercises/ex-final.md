@@ -34,9 +34,6 @@ Vous allez fournir des valeurs de configuration à votre application via deux m�
 - Un `Secret` nommé `api-secret` contenant une clé :
   - `API_KEY="topsecret123"`
 
-📝 À faire :
-- Créez les manifestes YAML à la main
-- N’utilisez pas de commande `kubectl create configmap` ni `--from-literal`
 
 ---
 
