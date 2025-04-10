@@ -11,136 +11,54 @@
 - Créer un Service ClusterIP et tester la connectivité
 - Comprendre l'utilité d'une image comme `httpbin`
 
+
+*Vous aurez besoin des [aides-mémoires](https://github.com/ycyr/formations/tree/main/kubernetes/aide-memoire) pour ce travail pratique* 	
+
 ---
 
-## 🟦 Étape 1 – Créer le namespace
+## 🟦 Étape 1 – Créer le namespace tp-revision-jour1
 
-```bash
-kubectl create namespace tp-revision-jour1
-```
+
 
 ---
 
 ## 🟦 Étape 2 – Créer un Pod `httpbin` avec labels et annotations
 
-✅ Fichier : `pod-httpbin.yaml`
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: httpbin-pod
-  namespace: tp-revision-jour1
-  labels:
-    app: httpbin
-  annotations:
-    version: "v1"
-spec:
-  containers:
-  - name: httpbin
-    image: kennethreitz/httpbin
-    ports:
-    - containerPort: 80
-```
+- image: kennethreitz/httpbin
+- nom du pod: httpbin-pod
+- labels:  app: httpbin
+- annotations: version: v1
+- containerPort: 80
 
-```bash
-kubectl apply -f pod-httpbin.yaml
-kubectl get pods -n tp-revision-jour1 --show-labels
-```
+
 
 ---
 
-## 🟦 Étape 3 – Créer un ReplicaSet avec 2 réplicas
+## 🟦 Étape 3 – Créer un ReplicaSet avec 2 réplicas avec le nom "httpbin-rs"
 
-✅ Fichier : `rs-httpbin.yaml`
-```yaml
-apiVersion: apps/v1
-kind: ReplicaSet
-metadata:
-  name: httpbin-rs
-  namespace: tp-revision-jour1
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: httpbin
-  template:
-    metadata:
-      labels:
-        app: httpbin
-    spec:
-      containers:
-      - name: httpbin
-        image: kennethreitz/httpbin
-        ports:
-        - containerPort: 80
-```
 
-```bash
-kubectl apply -f rs-httpbin.yaml
-kubectl get pods -n tp-revision-jour1 -l app=httpbin
-```
+- replicas: 2
+- nom: httpbin-rs
 
 ---
 
-## 🟦 Étape 4 – Déployer avec un Deployment (rolling update + scaling)
+## 🟦 Étape 4 – Déployer avec un Deployment appelé "httpbin-deploy"
 
-✅ Fichier : `deployment-httpbin.yaml`
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: httpbin-deploy
-  namespace: tp-revision-jour1
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: httpbin
-      version: stable
-  template:
-    metadata:
-      labels:
-        app: httpbin
-        version: stable
-    spec:
-      containers:
-      - name: httpbin
-        image: kennethreitz/httpbin
-        ports:
-        - containerPort: 80
-```
 
-```bash
-kubectl apply -f deployment-httpbin.yaml
-kubectl get deployments,replicasets,pods -n tp-revision-jour1
-```
+- nom: httpbin-deploy
+- replicas: 2
+
 
 ---
 
-## 🟦 Étape 5 – Créer un Service pour exposer httpbin
+## 🟦 Étape 5 – Créer un Service pour exposer httpbin appelé "httpbin-svc" avec le port 80
 
-✅ Fichier : `svc-httpbin.yaml`
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: httpbin-svc
-  namespace: tp-revision-jour1
-spec:
-  selector:
-    app: httpbin
-    version: stable
-  ports:
-  - port: 80
-    targetPort: 80
-```
-
-```bash
-kubectl apply -f svc-httpbin.yaml
-kubectl get svc -n tp-revision-jour1
-```
+- nom: httpbin-svc
+- port: 80
 
 ---
+
+
 
 ## 🟦 Étape 6 – Tester depuis un Pod dans le cluster
 
