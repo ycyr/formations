@@ -5,9 +5,13 @@
  
 *Astuce: Dans linux pour afficher l'heure à chaque 5 secondes*
 
+
 ```
 while date; do sleep 5; done
 ````
+
+*Prenez la forme shell de `CMD`*
+
 
 ### **2️⃣ Tester le fonctionnement de votre image, et que voyez-vous**
 

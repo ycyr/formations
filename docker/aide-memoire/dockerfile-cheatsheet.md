@@ -89,10 +89,24 @@ RUN apt-get update && apt-get install -y python3
 ---
 
 ### `CMD`
-Définit la commande exécutée par défaut lors du démarrage du conteneur.
+Définit la commande exécutée par défaut lors du démarrage du conteneur. Il existe trois formes:
+
+| Forme | Caractéristique | Utilisation principale |
+| ----------- | ----------- | ----------- |
+| ` CMD ["executable", "param1", "param2"] ` | Mode JSON, pas de shell | Recommandé pour fiabilité |
+| `CMD ["param1", "param2"]` | Paramètres pour ENTRYPOINT | En complément d'ENTRYPOINT |
+| `CMD command param1 param2 `| Shell (/bin/sh -c) | Pour scripts simples, redirections |
+
+
+
 
 ```dockerfile
+# From json
 CMD ["python3", "app.py"]
+## EntryPoint python3
+CMD ["app.py"]  
+### Forme Shell
+CMD python3 app.py
 ```
 
 ---
