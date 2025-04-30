@@ -3,6 +3,7 @@
 ```sh
 docker run -d --name serveur nginx
 ```
+
 2️⃣ **Lancer un second conteneur et tester la connexion** :
 ```sh
 docker run --rm -ti alpine ping -c 3 serveur
@@ -11,6 +12,12 @@ docker run --rm -ti alpine ping -c 3 serveur
 - Pourquoi le ping échoue ?  
 - Quelle serait la solution ?
 
+3️⃣ **Détruire le conteneur serveur** :
+```sh
+docker stop serveur 
+docker rm serveur
+```
+
 ### **💡 Solution : Utiliser un réseau personnalisé**
 Un réseau personnalisé permet à Docker d'ajouter un **DNS interne**.
 
@@ -18,9 +25,9 @@ Un réseau personnalisé permet à Docker d'ajouter un **DNS interne**.
 ```sh
 docker network create mon-reseau
 ```
-2️⃣ **Lancer le conteneur serveur dans ce réseau** :
+2️⃣ **Crée le conteneur serveur dans ce réseau** :
 ```sh
-docker run -dit --name serveur --network mon-reseau nginx
+docker run -d --name serveur --network mon-reseau nginx
 ```
 3️⃣ **Lancer le client dans le même réseau et tester la connexion** :
 ```sh
