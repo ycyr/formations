@@ -1,5 +1,10 @@
 # **📝 Exercice 9 : Comprendre le mode `bridge`, l’exposition des ports avec `-p`, `-P`, et l’option `--link`**
 
+## **Prérequis**
+*Si vous utiliser Docker Desktop sous Windows, vous devez vous assurer d'avoir la commande `curl` d'installée. Sinon, vous pouvez utiliser votre fureteur*
+
+
+
 
 ## **🎯 Partie 1 : Utilisation du mode `bridge`**
 1. Listez les réseaux existants sur votre machine Docker :
